@@ -132,130 +132,27 @@ Neuron NeunCgcForRtxi::initNeuron()
   return cgc;
 }
 
-// DefaultGUIModel::variable_t vars[Neuron::n_parameters+1];
-// DefaultGUIModel::variable_t * vars = (DefaultGUIModel::variable_t) malloc(sizeof(DefaultGUIModel::variable_t)*Neuron::n_parameters+1);
-// std::vector<DefaultGUIModel::variable_t> vars;
+DefaultGUIModel::variable_t vars[Neuron::n_parameters+1];
 
-// void NeunCgcForRtxi::initVars() {
-  
-//   std::vector<std::string> param_names = Neuron::ParamNames();
-//   for (int i = 0; i < Neuron::n_parameters; i++) {
-//     vars[i].name = param_names[i];
-//     vars[i].description = "Tooltip description";
-//     vars[i].flags = DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE;
-//   }
-//   int last = Neuron::n_parameters;
-//   vars[last].name = "Voltage (mV)";
-//   vars[last].description = "Voltage output simulated";
-//   vars[last].flags = DefaultGUIModel::OUTPUT;
-//   // std::vector<std::string> param_names = Neuron::ParamNames();
-//   // vars.resize(Neuron::n_parameters + 1);
-//   // for (int i = 0; i < Neuron::n_parameters; ++i) {
-//   //   vars[i].name = param_names[i];
-//   //   vars[i].description = "Tooltip description";
-//   //   vars[i].flags = DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE;
-//   // }
-
-//   // int last = Neuron::n_parameters;
-//   // vars[last].name = "Voltage (mV)";
-//   // vars[last].description = "Voltage output simulated";
-//   // vars[last].flags = DefaultGUIModel::OUTPUT;
-// }
-
-
-
-
-DefaultGUIModel::variable_t vars[] = {
-// PARAMETERS
-
-{"i_ext", "Fixed External current input to add", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"diff_T", "diff_T", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"cm", "cm", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"gamma_T", "gamma_T", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"vna", "vna", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"vk", "vk", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"vca", "vca", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Gnat", "Gnat", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Gnap", "Gnap", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Ga", "Ga", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Gd", "Gd", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Glva", "Glva", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Ghva", "Ghva", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Q10_Gnat", "Q10_Gnat", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Q10_Gnap", "Q10_Gnap", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Q10_Ga", "Q10_Ga", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Q10_Gd", "Q10_Gd", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Q10_Glva", "Q10_Glva", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Q10_Ghva", "Q10_Ghva", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"vh_h", "vh_h", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"vs_h", "vs_h", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"tau0_h", "tau0_h", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"delta_h", "delta_h", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Q10_h", "Q10_h", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"vh_r", "vh_r", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"vs_r", "vs_r", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"tau0_r", "tau0_r", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"delta_r", "delta_r", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Q10_r", "Q10_r", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"vh_a", "vh_a", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"vs_a", "vs_a", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"tau0_a", "tau0_a", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"delta_a", "delta_a", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Q10_a", "Q10_a", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"vh_b", "vh_b", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"vs_b", "vs_b", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"tau0_b", "tau0_b", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"delta_b", "delta_b", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Q10_b", "Q10_b", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"vh_n", "vh_n", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"vs_n", "vs_n", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"tau0_n", "tau0_n", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"delta_n", "delta_n", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Q10_n", "Q10_n", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"vh_e", "vh_e", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"vs_e", "vs_e", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"tau0_e", "tau0_e", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"delta_e", "delta_e", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Q10_e", "Q10_e", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"vh_f", "vh_f", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"vs_f", "vs_f", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"tau0_f", "tau0_f", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"delta_f", "delta_f", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Q10_f", "Q10_f", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Vh_m", "Vh_m", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Vs_m", "Vs_m", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Vh_c", "Vh_c", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Vs_c", "Vs_c", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Vh_d", "Vh_d", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Vs_d", "Vs_d", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"dv", "dv", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Inat", "Inat", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Inap", "Inap", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Ia", "Ia", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Id", "Id", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Ilva", "Ilva", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-{"Ihva", "Ihva", DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE,},
-
-//INPUTS
-{"I_syn", "Synapse current input", DefaultGUIModel::INPUT,},
-
-// OUTPUTS
-{"Vm (mV)", "Simulated Voltage", DefaultGUIModel::OUTPUT,},
-};
+DefaultGUIModel::variable_t * NeunCgcForRtxi::initVars() {
+  std::vector<std::string> param_names = Neuron::ParamNames();
+  for (int i = 0; i < Neuron::n_parameters; i++) {
+    vars[i].name = param_names[i];
+    vars[i].description = "Tooltip description";
+    vars[i].flags = DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE;
+  }
+  int last = Neuron::n_parameters;
+  vars[last].name = "Voltage (mV)";
+  vars[last].description = "Voltage output simulated";
+  vars[last].flags = DefaultGUIModel::OUTPUT;
+  return vars;
+}
 
 static size_t num_vars = sizeof(vars) / sizeof(DefaultGUIModel::variable_t);
-
-
-// NeunCgcForRtxi::NeunCgcForRtxi(void)
-//   : DefaultGUIModel("NeunCgcForRtxi", ::vars, ::num_vars),neuron(initNeuron())
-// {
-
-
-NeunCgcForRtxi::NeunCgcForRtxi(void)
-  : DefaultGUIModel("NeunCgcForRtxi", ::vars, ::num_vars),neuron(initNeuron())
+NeunCgcForRtxi::NeunCgcForRtxi()
+  : DefaultGUIModel("NeunCgcForRtxi", initVars(), num_vars),
+    neuron(initNeuron())
 {
-  
-  // initVars();
 
   DefaultGUIModel::createGUI(vars, num_vars); // this is required to create the GUI
 

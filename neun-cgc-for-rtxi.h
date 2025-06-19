@@ -48,7 +48,7 @@ public:
   void createGUI(DefaultGUIModel::variable_t*, int);
   void customizeGUI(void);
   Neuron initNeuron();
-  void initVars();
+  DefaultGUIModel::variable_t * initVars();
 
 protected:
   virtual void update(DefaultGUIModel::update_flags_t);
