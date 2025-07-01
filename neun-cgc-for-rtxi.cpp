@@ -132,10 +132,10 @@ Neuron NeunCgcForRtxi::initNeuron()
   return cgc;
 }
 
-DefaultGUIModel::variable_t vars[Neuron::n_parameters+8];
+DefaultGUIModel::variable_t vars[Neuron::n_parameters+9];
 
 DefaultGUIModel::variable_t * NeunCgcForRtxi::initVars() {
-  vars[0].name = "i_ext";
+  vars[0].name = "Iext";
   vars[0].description = "constant external input";
   vars[0].name = DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE;
 
@@ -171,6 +171,8 @@ DefaultGUIModel::variable_t * NeunCgcForRtxi::initVars() {
   vars[last].name = "Inat"; vars[last].description = "Inat current"; vars[last].flags = DefaultGUIModel::OUTPUT;
   last++;
 
+  vars[last].name = "Isyn"; vars[last].description = "Synaptic input"; vars[last].flags = DefaultGUIModel::INPUT;
+
   return vars;
 }
 
@@ -203,6 +205,9 @@ NeunCgcForRtxi::execute(void)
 {
   neuron.step(0.01);
   neuron.add_synaptic_input(i_ext);
+
+  neuron.add_synaptic_input(input(0));
+
   output(0) = neuron.get(Neuron::v) / 1000;
 
   // TODO generalize
@@ -212,6 +217,7 @@ NeunCgcForRtxi::execute(void)
   output(4) = neuron.get(Neuron::Ilva);
   output(5) = neuron.get(Neuron::Inap);
   output(6) = neuron.get(Neuron::Inat);
+  
 
   return;
 }
@@ -233,7 +239,7 @@ NeunCgcForRtxi::update(DefaultGUIModel::update_flags_t flag)
     case INIT:
       period = RT::System::getInstance()->getPeriod() * 1e-6; // ms
       
-      setParameter("i_ext", i_ext);
+      setParameter("Iext", i_ext);
 
       param_names = Neuron::ParamNames();
       for (int i = 0; i < Neuron::n_parameters; i++) {
@@ -253,7 +259,7 @@ NeunCgcForRtxi::update(DefaultGUIModel::update_flags_t flag)
       break;
 
     case MODIFY:
-      i_ext = getParameter("i_ext").toDouble();
+      i_ext = getParameter("Iext").toDouble();
 
       for (int i = 0; i < Neuron::n_parameters; i++) {
         double value = getParameter(param_names_qt[i+1]).toDouble();
