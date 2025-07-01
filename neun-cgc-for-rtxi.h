@@ -32,7 +32,7 @@
 // #define INIT_YAML "./initial_params.yaml"
 
 typedef RungeKutta6 Integrator;
-typedef VavoulisCGCModelQ10<float> CGCModel;
+typedef VavoulisCGCModelQ10<double> CGCModel;
 typedef DifferentialNeuronWrapper<CGCModel, Integrator> Neuron;
 
 class NeunCgcForRtxi : public DefaultGUIModel
