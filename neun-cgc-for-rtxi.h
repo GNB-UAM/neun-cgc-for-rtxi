@@ -25,14 +25,14 @@
 
 #include <DifferentialNeuronWrapper.h>
 #include <VavoulisCGCModelQ10.h>
-#include <RungeKutta4.h>
+#include <RungeKutta6.h>
 
 // #include "input_parser.h"
 
 // #define INIT_YAML "./initial_params.yaml"
 
-typedef RungeKutta4 Integrator;
-typedef VavoulisCGCModelQ10<double> CGCModel;
+typedef RungeKutta6 Integrator;
+typedef VavoulisCGCModelQ10<float> CGCModel;
 typedef DifferentialNeuronWrapper<CGCModel, Integrator> Neuron;
 
 class NeunCgcForRtxi : public DefaultGUIModel
@@ -56,6 +56,7 @@ protected:
 private:
   double v0;
   double i_ext;
+  double step;
   double diff_T;
 
   Neuron neuron;
