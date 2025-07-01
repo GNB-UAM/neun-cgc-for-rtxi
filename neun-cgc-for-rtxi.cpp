@@ -50,6 +50,7 @@ Neuron NeunCgcForRtxi::initNeuron()
 
   // Set the parameter values
   //TODO fix reading by YAML
+    args.params[Neuron::t_scale] = 1;
     args.params[Neuron::Ga] = 18.82;
     args.params[Neuron::Gd] = 1.2;
     args.params[Neuron::Ghva] = 1.03;
@@ -132,17 +133,20 @@ Neuron NeunCgcForRtxi::initNeuron()
   return cgc;
 }
 
-DefaultGUIModel::variable_t vars[Neuron::n_parameters+9];
+DefaultGUIModel::variable_t vars[Neuron::n_parameters+11];
 
 DefaultGUIModel::variable_t * NeunCgcForRtxi::initVars() {
-  vars[0].name = "Iext";
-  vars[0].description = "constant external input";
-  vars[0].name = DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE;
+  vars[0].name = "step";
+  vars[0].description = "Integration step";
+  vars[0].flags = DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE;
+  vars[1].name = "Iext";
+  vars[1].description = "constant external input";
+  vars[1].flags = DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE;
 
   std::vector<std::string> param_names = Neuron::ParamNames();
-  for (int i = 1; i < Neuron::n_parameters+1; i++) {
-    vars[i].name = param_names[i-1];
-    vars[i].description = param_names[i-1];
+  for (int i = 2; i < Neuron::n_parameters+2; i++) {
+    vars[i].name = param_names[i-2];
+    vars[i].description = param_names[i-2];
     vars[i].flags = DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE;
   }
   int last = Neuron::n_parameters+1;
@@ -203,7 +207,7 @@ NeunCgcForRtxi::~NeunCgcForRtxi(void)
 void
 NeunCgcForRtxi::execute(void)
 {
-  neuron.step(0.01);
+  neuron.step(step);
   neuron.add_synaptic_input(i_ext);
 
   neuron.add_synaptic_input(input(0));
@@ -230,7 +234,7 @@ NeunCgcForRtxi::initParameters(void)
   i_ext = 0.1;
   v0 = -65;
   diff_T = 0;
-
+  step = 0.01;
 
   //TODO fix reading by YAML
   neuron.set(Neuron::Ga, 18.82);
@@ -318,6 +322,7 @@ NeunCgcForRtxi::update(DefaultGUIModel::update_flags_t flag)
       period = RT::System::getInstance()->getPeriod() * 1e-6; // ms
       
       setParameter("Iext", i_ext);
+      setParameter("step", step);
 
       param_names = Neuron::ParamNames();
       for (int i = 0; i < Neuron::n_parameters; i++) {
@@ -330,6 +335,7 @@ NeunCgcForRtxi::update(DefaultGUIModel::update_flags_t flag)
       }
       param_names_qt.clear();
       param_names_qt.push_back(QString::fromStdString("Iext"));
+      param_names_qt.push_back(QString::fromStdString("step"));
       for (const auto& name : Neuron::ParamNames()) {
           param_names_qt.push_back(QString::fromStdString(name));
       }
@@ -338,11 +344,12 @@ NeunCgcForRtxi::update(DefaultGUIModel::update_flags_t flag)
 
     case MODIFY:
       i_ext = getParameter(param_names_qt[0]).toDouble();
-
+      step = getParameter(param_names_qt[1]).toDouble();
       printf("Setting %s\n",param_names_qt[0].toStdString().c_str());
+      printf("Setting %s\n",param_names_qt[1].toStdString().c_str());
       for (int i = 0; i < Neuron::n_parameters; i++) {
-        printf("Setting %s\n",param_names_qt[i+1].toStdString().c_str());
-        double value = getParameter(param_names_qt[i+1]).toDouble();
+        printf("Setting %s\n",param_names_qt[i+2].toStdString().c_str());
+        double value = getParameter(param_names_qt[i+2]).toDouble();
         neuron.set(static_cast<VavoulisCGCModelQ10<double>::parameter>(i), value);
     }
       break;
@@ -403,5 +410,7 @@ void
 NeunCgcForRtxi::bBttn_event(void)
 {
   printParameters();
+  printf("Iext %f\n",i_ext);
+  printf("step %f\n",step);
   printf("Input %f\n",input(0));
 }
