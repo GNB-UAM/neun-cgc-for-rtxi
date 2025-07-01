@@ -233,8 +233,6 @@ NeunCgcForRtxi::initParameters(void)
 
 
   //TODO fix reading by YAML
-
-
   neuron.set(Neuron::Ga, 18.82);
   neuron.set(Neuron::Gd, 1.2);
   neuron.set(Neuron::Ghva, 1.03);
@@ -309,9 +307,7 @@ NeunCgcForRtxi::initParameters(void)
   neuron.set(Neuron::b, 1 / (1 + exp( (neuron.get(Neuron::vh_b) - v0) / neuron.get(Neuron::vs_b))));
   neuron.set(Neuron::n, 1 / (1 + exp( (neuron.get(Neuron::vh_n) - v0) / neuron.get(Neuron::vs_n))));
   neuron.set(Neuron::e, 1 / (1 + exp( (neuron.get(Neuron::vh_e) - v0) / neuron.get(Neuron::vs_e))));
-  neuron.set(Neuron::f, 1 / (1 + exp( (neuron.get(Neuron::vh_f) - v0) / neuron.get(Neuron::vs_f))));
-  
-  
+  neuron.set(Neuron::f, 1 / (1 + exp( (neuron.get(Neuron::vh_f) - v0) / neuron.get(Neuron::vs_f))));  
 }
 
 void
