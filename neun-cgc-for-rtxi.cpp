@@ -132,19 +132,45 @@ Neuron NeunCgcForRtxi::initNeuron()
   return cgc;
 }
 
-DefaultGUIModel::variable_t vars[Neuron::n_parameters+1];
+DefaultGUIModel::variable_t vars[Neuron::n_parameters+8];
 
 DefaultGUIModel::variable_t * NeunCgcForRtxi::initVars() {
+  vars[0].name = "i_ext";
+  vars[0].description = "constant external input";
+  vars[0].name = DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE;
+
   std::vector<std::string> param_names = Neuron::ParamNames();
-  for (int i = 0; i < Neuron::n_parameters; i++) {
-    vars[i].name = param_names[i];
-    vars[i].description = "Tooltip description";
+  for (int i = 1; i < Neuron::n_parameters+1; i++) {
+    vars[i].name = param_names[i-1];
+    vars[i].description = param_names[i-1];
     vars[i].flags = DefaultGUIModel::PARAMETER | DefaultGUIModel::DOUBLE;
   }
-  int last = Neuron::n_parameters;
+  int last = Neuron::n_parameters+1;
   vars[last].name = "Voltage (mV)";
   vars[last].description = "Voltage output simulated";
   vars[last].flags = DefaultGUIModel::OUTPUT;
+
+  //TODO generalize
+  last++;
+
+  vars[last].name = "Ia"; vars[last].description = "Ia current"; vars[last].flags = DefaultGUIModel::OUTPUT;
+  last++;
+  
+  vars[last].name = "Id"; vars[last].description = "Id current"; vars[last].flags = DefaultGUIModel::OUTPUT;
+  last++;
+
+  vars[last].name = "Ihva"; vars[last].description = "Ihva current"; vars[last].flags = DefaultGUIModel::OUTPUT;
+  last++;
+
+  vars[last].name = "Ilva"; vars[last].description = "Ilva current"; vars[last].flags = DefaultGUIModel::OUTPUT;
+  last++;
+
+  vars[last].name = "Inap"; vars[last].description = "Inap current"; vars[last].flags = DefaultGUIModel::OUTPUT;
+  last++;
+
+  vars[last].name = "Inat"; vars[last].description = "Inat current"; vars[last].flags = DefaultGUIModel::OUTPUT;
+  last++;
+
   return vars;
 }
 
@@ -179,6 +205,14 @@ NeunCgcForRtxi::execute(void)
   neuron.add_synaptic_input(i_ext);
   output(0) = neuron.get(Neuron::v) / 1000;
 
+  // TODO generalize
+  output(1) = neuron.get(Neuron::Ia);
+  output(2) = neuron.get(Neuron::Id);
+  output(3) = neuron.get(Neuron::Ihva);
+  output(4) = neuron.get(Neuron::Ilva);
+  output(5) = neuron.get(Neuron::Inap);
+  output(6) = neuron.get(Neuron::Inat);
+
   return;
 }
 
@@ -202,8 +236,8 @@ NeunCgcForRtxi::update(DefaultGUIModel::update_flags_t flag)
       setParameter("i_ext", i_ext);
 
       param_names = Neuron::ParamNames();
-      for (int i = 1; i < Neuron::n_parameters; i++) {
-        vars[i].name = param_names[i];
+      for (int i = 0; i < Neuron::n_parameters; i++) {
+        // vars[i+1].name = param_names[i];
     // Convert std::string to QString for setParameter
         QString paramName = QString::fromStdString(param_names[i]);
         double paramValue = static_cast<double>(
@@ -222,7 +256,7 @@ NeunCgcForRtxi::update(DefaultGUIModel::update_flags_t flag)
       i_ext = getParameter("i_ext").toDouble();
 
       for (int i = 0; i < Neuron::n_parameters; i++) {
-        double value = getParameter(param_names_qt[i]).toDouble();
+        double value = getParameter(param_names_qt[i+1]).toDouble();
         neuron.set(static_cast<VavoulisCGCModelQ10<double>::parameter>(i), value);
     }
       break;
@@ -250,7 +284,7 @@ NeunCgcForRtxi::customizeGUI(void)
   QGroupBox* button_group = new QGroupBox;
 
   QPushButton* abutton = new QPushButton("Reset initial");
-  QPushButton* bbutton = new QPushButton("Button B");
+  QPushButton* bbutton = new QPushButton("Print Parameters");
   QHBoxLayout* button_layout = new QHBoxLayout;
   button_group->setLayout(button_layout);
   button_layout->addWidget(abutton);
@@ -269,8 +303,18 @@ NeunCgcForRtxi::aBttn_event(void)
     initParameters();
 
 }
+void NeunCgcForRtxi::printParameters() { 
+  std::vector<std::string> param_names = Neuron::ParamNames();
+
+  for(int i=0; i < Neuron::n_parameters; i++)
+  {
+    printf("%s %f\n",param_names[i].c_str(),
+          neuron.get(static_cast<VavoulisCGCModelQ10<double>::parameter>(i)));
+  }
+}
 
 void
 NeunCgcForRtxi::bBttn_event(void)
 {
+  printParameters();
 }
